@@ -7,6 +7,9 @@ class Main extends CI_Controller{
     public function Showcommand(){
         $this->load->view('Showcommand');
     }
+    public function Showadd(){
+        $this->load->view('addcommand');
+    }
     public function getlistCommand(){
         $this->load->model('My_model');
         $model=$this->My_model;
@@ -61,6 +64,19 @@ class Main extends CI_Controller{
        $this->load->model('My_model');
         $model=$this->My_model;
          echo ceil(($model->getNumRow()-1)/10);
+   }
+   public function showmem(){
+        if(isset($_GET['comid']))
+       echo $_GET['comid']."<br>";
+       if(isset($_GET['comname']))
+       echo $_GET['comname']."<br>";
+       foreach($_GET['memberlist'] as $row=>$v){
+           echo $v."<br>";
+       }
+       echo $_GET['comstart']."<br>";
+       if(isset($_GET['comstop']))
+       echo $_GET['comstop']."<br>";
+      
    }
 }
 
