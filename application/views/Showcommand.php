@@ -66,7 +66,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                    <div style="overflow:auto;height:500px" >
                         <table  class="table ">
                             <tr>
-                            <th></th>
+                            
                             <th ng-click="changeorder('Command_genid')"><b>รหัส</b></th>
                             <th style='width:850' ng-click="changeorder('Command_name')"><b>ชื่อคำสั่ง</b></th>
                             <th ng-click="changeorder('Command_startdate')"><b>วันเริ่ม</b></th>
@@ -75,13 +75,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th ng-click="changeorder('Command_link')"><b>link</b></th>
                             </tr>
                             <tr ng-repeat='r in obj1 | orderBy:ordername | filter : myfilter'>
-                                <td><input type=checkbox></td>
+                            <a href='#1'>
+                                
                                 <td>{{r.Command_genid}}</td>
                                 <td style='width:850'>{{r.Command_name}}</td>
                                 <td>{{r.Command_startdate}}</td>
                                 <td>{{r.Command_donedate}}</td>
                                 <td>{{r.Command_status}}</td>
-                                <td value={{r.Command_id}}>{{r.Command_link}}</td>
+                                <td value={{r.Command_id}}><a href='<?php echo base_url() ?>index.php/main/showonecommand/{{r.Command_id}}'>click</a></td>
+                                </a>
                             </tr>
                             </table>
                         </div>

@@ -39,11 +39,51 @@ defined('BASEPATH') OR exit('No direct script access allowed');
          </div>
        <?php include("page/nav.php") ?>
         <div class="container-fluid" style="height:1000px">
-           <div class="col-sm-2" id="myScrollspy">
+           <div class="col-sm-3" id="myScrollspy">
                 
                 </div>
-            <div  class="col-sm-10">
-
+            <div  class="col-sm-6">
+                <?php 
+                        echo  "<div class='col-sm-10'>";
+                        echo "<br>";
+                        
+                        echo "<h3>รหัสคำสั่งแต่งตั้ง </h3><h4>$Command_genid</h4>";
+                        echo "<br>";
+                        
+                        echo "<h3>ชื่่อคำสั่ง</h3><p> &nbsp;&nbsp;&nbsp; $Command_name </p>";
+                        
+                        
+                        echo "<h3>รายชื่อกรรมการ</h3>";
+                        echo "<p>";
+                        if(empty($memberlist)){
+                            echo "-.- ขณะนี้ยังไม่มีรายชื่อกรรมการ -.-";
+                        }else{
+                            foreach($memberlist as $key=>$row){
+                                echo "ชื่อ $row->Member_fname $row->Member_lname ตำแหน่ง $row->Member_Position<br>";
+                            }
+                        }
+                        echo "</p>";
+                        
+                        
+                        echo "<h3>เวลาเริ่มคำสั่ง / เวลาหมดอายุคำสั่ง</h3>";
+                        echo "$Command_startdate / $Command_donedate";
+                        echo "<br>";
+                        
+                        echo "<h3>สาถานะ</h3>";
+                        if($Command_status=='A'){
+                            echo "<p>กำลังดำเนินการ</p>";
+                        }else{
+                            echo "<p>หมดอายุแล้ว</p>";
+                        }
+                         
+                        echo "</div>";
+                        echo  "<div class='col-sm-2'>";
+                        echo "<button>แก้ใข</button> <button>ลบ</button>";
+                        echo "</div";
+                       
+                        
+                ?>
+                
            </div>
          </div>
         

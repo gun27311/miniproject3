@@ -71,7 +71,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             </div>
             <div class="col-sm-10">
-                <form action=showmem>
+                <form action="<?php echo base_url() ?>index.php/main/addcommand" method='POST'>
                 <!-- form !-->
                 <div class="form-group">
                     <label for="text">เลขที่คำสั่ง :</label>
@@ -95,16 +95,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <tr>
                             <td>
                     <label for="text">เวลาเริ่มคำสั่ง :</label>
-                    <input type="date" name=comstart class="form-control" id="comname">
+                    <input ng-model='start' type="date" name=comstart class="form-control" id="comname">
                             </td>
                     </tr>
                       <tr>
                             <td>
                     <label for="text">เวลาจบคำสั่ง :</label>
-                     <input type="date" name=comstop class="form-control" id="comname">
+                     <input type="date" min={{start}} name=comstop class="form-control" id="comname">
                            </td>
                     </tr>
                      </table>
+                     <h3>สถานะ</h3>
+                     <input type=radio value='A' name=status checked> Active <input type=radio value='X' name=status> expes
                 </div>
                 <button type="submit" class="btn btn-default">Submit</button>
 
@@ -123,8 +125,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 $('#addmember').click(function() {
                     $(this).before("<tr><td><input type='text'  name='memberlist[]' class='form-control' id='pwd' placeholder='โปรดใส่ชื่อกรรมการ'></td><td width='130'><input type='text' name='prolist[]'  class='form-control' id='pwd' placeholder='โปรดใส่ตำแหน่ง'></td><td><button type=button id=remove class='btn btn-default'>ลบ</button></td></tr><tr id=nonshow><td id=nonshow>&nbsp;</td></tr>");
                 })
-                $('body').on('
-                click','#remove',function(){
+                $('body').on('click','#remove',function(){
                      $(this).parent().parent().next().remove();
                     $(this).parent().parent().remove();
                 })
@@ -133,9 +134,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             })
         </script>
         <script>
+            var x="<?php echo date('Y-m-d'); ?>";
+            
             var app = angular.module('myapp', []);
             app.controller('myctrl', function($scope) {
-
+                $scope.start=new Date();
             });
         </script>
     </body>

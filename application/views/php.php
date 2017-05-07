@@ -1,5 +1,5 @@
 <?php
 
 foreach($_GET['memberlist'] as $row=>$val)
-    echo $val."<br>";
+    echo "\$_POST['$row']=$val <br>";
 ?>

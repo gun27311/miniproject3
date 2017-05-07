@@ -78,6 +78,50 @@ class Main extends CI_Controller{
        echo $_GET['comstop']."<br>";
       
    }
+   public function showonecommand($id){
+       $this->load->model('My_model');
+        $model=$this->My_model;
+        $result=$model->getOneCommand($id);
+        $s=array();
+        foreach($result->result() as $x){
+            $s=array(
+                'Command_id' => $x->Command_id,
+                'Command_genid' => $x->Command_genid,
+                'Command_name' => $x->Command_name,
+                'Command_startdate'=>$x->Command_startdate,
+                'Command_donedate'=>$x->Command_donedate,
+                'Command_status'=>$x->Command_status,
+                'Command_link'=>$x->Command_link
+            );
+        }
+        $ww=array();
+        $result=$model->getMemberInCommand($id);
+        foreach($result->result() as $row){
+            array_push($ww,$row);
+        }
+        $s['memberlist']=$ww;
+        $this->load->view('Showonecommand',$s);
+        
+   }
+   public function addcommand(){
+       $this->load->model('My_model');
+        $model=$this->My_model;
+        if($model->addCommand($_POST['comid'],$_POST['comname'],$_POST['comstart'],$_POST['comstop'],$_POST['status'])){
+            echo 'complete';
+        }else{
+            echo 'not';
+        }
+        //$_POST['comid'];
+       // $_POST['comname'];
+       
+        //$_POST['comstart'];
+       // $_POST['comstop'];
+
+        //$_POST['memberlist'];
+   }
+   public function showsearch(){
+
+   }
 }
 
  class Command {
