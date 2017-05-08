@@ -86,10 +86,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $sql="DELETE FROM `command` WHERE `Command_id` like ?";
              $this->db->query($sql,$data);
         }
-        public function editCommmand($cid){
-            $sql="SELECT * FROM command WHERE Command_id like ?";
+        public function updatecommand($cgid,$cname,$cstart,$cstop,$cstatus,$cid){
+            $sql="UPDATE `command` 
+            SET `Command_genid`=?,`Command_name`=?,`Command_startdate`=?,`Command_donedate`=?,`Command_status`=? WHERE `Command_id` like ?";
+            $data=array($cgid,$cname,$cstart,$cstop,$cstatus,$cid);
+            $this->db->query($sql,$data);
+        }
+        public function deleteMemberInCommand($cid){
+            $sql="DELETE FROM `member_in_command` WHERE `Command_id` like ?";
             $data=array($cid);
-            $result=$this->db->query($sql,$data);
+            $this->db->query($sql,$data);
         }
         
     }

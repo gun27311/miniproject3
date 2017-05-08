@@ -66,8 +66,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         echo "</p>";
                         
                         
-                        echo "<h3>เวลาเริ่มคำสั่ง / เวลาหมดอายุคำสั่ง</h3>";
-                        echo "$Command_startdate / $Command_donedate";
+                        echo "<h3>ระยะเวลาของคำสั่ง</h3>";
+                        echo "$Command_startdate ถึง ";
+                        if($Command_donedate=='0000-00-00'){
+                            echo "ไม่มีกำหนด";
+                        }else{
+                            echo "$Command_donedate";
+                        }
                         echo "<br>";
                         
                         echo "<h3>สาถานะ</h3>";
@@ -79,7 +84,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                          
                         echo "</div>";
                         echo  "<div class='col-sm-2'>";
-                        echo "<a href='".base_url()."/index.php/main/editCommmand/$Command_id'><button>แก้ใข</button></a> <a href='".base_url()."/index.php/main/deleteCommmand/$Command_id'><button>ลบ</button></a>";
+                        echo "<a href='".base_url()."/index.php/main/Showeditcommmand/$Command_id'><button>แก้ใข</button></a> <a href='".base_url()."/index.php/main/deleteCommmand/$Command_id'><button>ลบ</button></a>";
                         echo "</div";
                        
                 }else{

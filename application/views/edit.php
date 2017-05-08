@@ -75,23 +75,38 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             </div>
             <div class="col-sm-10">
-                <form action="<?php echo base_url() ?>index.php/main/addcommand" method='POST'>
+                <form action="<?php echo base_url(); ?>index.php/main/editcommand/<?php echo $Command_id; ?>" method='POST'>
                 <!-- form !-->
                 <div class="form-group">
                     <label for="text">เลขที่คำสั่ง :</label>
-                    <input type="text" class="form-control" name=comid id="comid">
+                    <input type="text" value='<?php echo $Command_genid; ?>' class="form-control" name=comid id="comid">
                 </div>
                 <div class="form-group">
                     <label for="text">ชื่อคำสั่ง:</label>
-                    <input type="text" class="form-control" name=comname id="comname">
+                    <input type="text" value='<?php echo $Command_name; ?>' class="form-control" name=comname id="comname">
                 </div>
                 <div class="form-group">
+                    
                     <label for="text">รายชื่อกรรมการ:</label>
                     <br>
                     <table>
-
-                    <button type="button" id=addmember class="btn btn-default">เพื่มกรรมการ</button>
+                    <?php
+                        foreach($memberlist as $key=>$row){
+                            
+                            echo "<tr>";
+                                echo "<td>
+                                    <input type='text' value='".$row->Member_name."'  name='memberlist[]' class='form-control' placeholder='โปรดใส่ชื่อกรรมการ'>
+                                    </td>";
+                                echo "<td width='130'><input value='".$row->Member_Position."' type='text' name='prolist[]'  class='form-control' id='pwd' placeholder='โปรดใส่ตำแหน่ง'></td>";
+                                echo "<td><button type=button id=remove class='btn btn-default'>ลบ</button></td>";
+                            echo "</tr><tr id=nonshow><td id=nonshow>&nbsp;</td></tr>";
+                           
+                            
+                        }
+                        ?>
+                    
                     </table>
+                    <button type="button" id=addmember class="btn btn-default">เพื่มกรรมการ</button>
                 </div>
 
                 <div class="form-group">
@@ -112,7 +127,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                      <h3>สถานะ</h3>
                      <input type=radio value='A' name=status checked> Active <input type=radio value='X' name=status> expes
                 </div>
-                <button type="submit" class="btn btn-default">Submit</button>
+                <button type="submit" class="btn btn-default">แก้ใข</button> <button type="submit" class="btn btn-default">ยกเลิก</button>
 
                 <!-- form !-->
                 </form>

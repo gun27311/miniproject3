@@ -43,7 +43,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 
                 </div>
             <div  class="col-sm-8">
-               
+               <h3>ค้นหา</h3>
+               ชื่อคำสั่ง <input type=text >
                 
            </div>
          </div>

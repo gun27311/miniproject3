@@ -132,6 +132,7 @@ class Main extends CI_Controller{
             $i++;
         }
        }
+       header("location:".base_url()."/index.php/main/Showcommand");
         //$_POST['comid'];
        // $_POST['comname'];
        
@@ -160,7 +161,7 @@ class Main extends CI_Controller{
    public function Showeditcommmand($cid){
        $this->load->model('My_model');
         $model=$this->My_model;
-        $result=$model->getOneCommand($id);
+        $result=$model->getOneCommand($cid);
         $s=array();
         foreach($result->result() as $x){
             $s=array(
@@ -174,12 +175,47 @@ class Main extends CI_Controller{
             );
         }
         $ww=array();
-        $result=$model->getMemberInCommand($id);
+        $result=$model->getMemberInCommand($cid);
         foreach($result->result() as $row){
             array_push($ww,$row);
         }
         $s['memberlist']=$ww;
-        $this->load->view('edit',$s);
+        $this->load->view('Edit',$s);
+   }
+   public function editcommand($cid){
+        if(isset($_POST['memberlist'])){
+       $this->load->model('My_model');
+        $model=$this->My_model;
+        $model->updatecommand($_POST['comid'],$_POST['comname'],$_POST['comstart'],$_POST['comstop'],$_POST['status'],$cid);
+        $result=$model->getallmember();
+        $model->deleteMemberInCommand($cid);
+       $check=false;
+       $i=0;
+        foreach($_POST['memberlist'] as $k){
+            
+            foreach($result->result() as $row){
+                if($row->Member_name==$k){
+                    $model->addmember_in_command($row->Member_id,$cid);
+                    $check=false;
+                    break;
+                }
+                $check=true;
+            }
+            if($check){
+               
+                $model->addmember($k,$_POST['prolist'][$i]);
+                $mid=$model->checkmemberid($k,$_POST['prolist'][$i]);
+                //echo "namemem=".$k."pro=".$_POST['prolist'][$i].' mid='.$mid.' cid='.$cid."<br>";
+                $model->addmember_in_command($mid,$cid);
+            }
+            $i++;
+        }
+       }
+       header("location:".base_url()."/index.php/main/showonecommand/".$cid);
+   }
+
+   public function showsearch(){
+       
    }
 }
 

@@ -3,7 +3,7 @@
                 <li><a href="<?php echo base_url() ?>index.php/main/Showcommand">คำสั่งทั้งหมด</a></li>
                 <li><a href="<?php echo base_url() ?>index.php/main/Showadd">เพิ่มคำสั่ง</a></li>
                 
-                <li style=''><a href="#"><span class="glyphicon glyphicon-search"></span>ค้นหา</a></li>
+                <li style=''><a href="<?php echo base_url() ?>index.php/main/"><span class="glyphicon glyphicon-search"></span>ค้นหา</a></li>
             </ul>
             
         </nav>
