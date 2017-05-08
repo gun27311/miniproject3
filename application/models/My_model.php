@@ -2,7 +2,11 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
     class My_model extends CI_Model{
         public function getlistCommand(){
-            $sql="SELECT * FROM command";
+            $sql="SELECT * FROM command ";
+            return $this->db->query($sql);
+        }
+        public function getlistCommand2(){
+            $sql="SELECT * FROM command ORDER BY Command_id desc";
             return $this->db->query($sql);
         }
         public function getCommand($id){
@@ -97,7 +101,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $data=array($cid);
             $this->db->query($sql,$data);
         }
-        
+        public function getnatural($cid){
+            $sql="SELECT * FROM member_in_command NATURAL JOIN member WHERE Command_id like ? ORDER BY Command_id desc";
+            $data=array($cid);
+            return $this->db->query($sql,$data);
+        }
+        public function getminyear(){
+            $sql="SELECT Min(Command_startdate) FROM command";
+            $result=$this->db->query($sql);
+            
+                return $result->result();
+            
+            
+        }
+        public function getmaxyear(){
+            $sql="SELECT Max(Command_startdate) AS maxy FROM command";
+            $result=$this->db->query($sql);
+            foreach($result->result() as $r){
+                return $r->maxy;
+            }
+            
+        }
     }
 
 ?>

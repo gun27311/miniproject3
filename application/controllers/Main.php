@@ -10,6 +10,35 @@ class Main extends CI_Controller{
     public function Showadd(){
         $this->load->view('addcommand');
     }
+    public function getMaxYear(){
+        $this->load->model('My_model');
+        $model=$this->My_model;
+        echo $model->getmaxyear();
+    }
+    public function getComplete(){
+        $this->load->model('My_model');
+        $model=$this->My_model;
+        $result=$model->getlistCommand2();
+        $command=array();
+       
+    
+        foreach($result->result() as $row){
+            $obj=new Command();
+             $meo=new Command();
+             $s=$model->getnatural($row->Command_id);
+             $m=array();
+             foreach($s->result() as $r){
+                
+                array_push($m,$r);
+             }
+            $obj->Command=$row;
+            $obj->Memberlist=$m;
+            array_push($command,$obj);
+            
+               
+        }
+        echo json_encode($command);
+    }
     public function getlistCommand(){
         $this->load->model('My_model');
         $model=$this->My_model;
@@ -215,18 +244,21 @@ class Main extends CI_Controller{
    }
 
    public function showsearch(){
-       
+       $this->load->model('My_model');
+        $model=$this->My_model;
+        $result=$model->getallmember();
+        $a=array();
+        foreach($result->result() as $row){
+            array_push($a,$row->Member_name);
+        }
+        $g['json']=json_encode($a);
+       $this->load->view('search',$g);
    }
 }
 
  class Command {
-     public $Command_id;
-     public $Command_genid;
-     public $Command_name;
-     public $Command_startdate;
-     public $Command_donedate;
-     public $Command_status;
-     public $Command_link;
+     
  }
+ class obj{}
 
 ?>
