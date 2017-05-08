@@ -44,6 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
             <div  class="col-sm-6">
                 <?php 
+                if(isset($Command_genid)){
                         echo  "<div class='col-sm-10'>";
                         echo "<br>";
                         
@@ -59,7 +60,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             echo "-.- ขณะนี้ยังไม่มีรายชื่อกรรมการ -.-";
                         }else{
                             foreach($memberlist as $key=>$row){
-                                echo "ชื่อ $row->Member_fname $row->Member_lname ตำแหน่ง $row->Member_Position<br>";
+                                echo "ชื่อ $row->Member_name ตำแหน่ง $row->Member_Position<br>";
                             }
                         }
                         echo "</p>";
@@ -78,10 +79,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                          
                         echo "</div>";
                         echo  "<div class='col-sm-2'>";
-                        echo "<button>แก้ใข</button> <button>ลบ</button>";
+                        echo "<a href='".base_url()."/index.php/main/editCommmand/$Command_id'><button>แก้ใข</button></a> <a href='".base_url()."/index.php/main/deleteCommmand/$Command_id'><button>ลบ</button></a>";
                         echo "</div";
                        
-                        
+                }else{
+                    echo "<h3>คำสั่งนี้ถูกลบไปแล้ว</h3>";
+                }
                 ?>
                 
            </div>
