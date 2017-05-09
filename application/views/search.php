@@ -136,12 +136,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             alert('ใส่ปีน้อยกว่าไม่ได้ค่ะ');
                              $http({
                                 method : "GET",
-                                    url : "<?php echo base_url() ?>index.php/main/getMaxYear"
+                                    url : "<?php echo base_url() ?>index.php/main/getlistforyear/"+$scope.mini+"/"+$scope.maxi
                                 }).then(function mySucces(response) {
-                                    $scope.miny = response.data;
-                                    alert($scope.miny);
+                                    $scope.obj = response.data;
+                                
                                 }, function myError(response) {
-                                    $scope.miny =response.data;
+                                    $scope.obj =response.data;
+                                }); 
+                        }else{
+                            $http({
+                                method : "GET",
+                                    url : "<?php echo base_url() ?>index.php/main/getlistforyear/"+$scope.mini+"/"+$scope.maxi
+                                }).then(function mySucces(response) {
+                                    $scope.obj = response.data;
+                                }, function myError(response) {
+                                    $scope.obj =response.data;
                                 }); 
                         }
                     }

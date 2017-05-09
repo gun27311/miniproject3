@@ -24,6 +24,32 @@ class Main extends CI_Controller{
         $da=date("Y",$s);
         echo $da;
     }
+    public function getlistforyear($min,$max){
+         $this->load->model('My_model');
+        $model=$this->My_model;
+        $max++;
+        $result=$model->getlistforyear($min,$max);
+        $command=array();
+       
+    
+        foreach($result->result() as $row){
+            $obj=new Command();
+             $meo=new Command();
+             $s=$model->getnatural($row->Command_id);
+             $m=array();
+             foreach($s->result() as $r){
+                
+                array_push($m,$r);
+             }
+            $obj->Command=$row;
+            $obj->Memberlist=$m;
+            array_push($command,$obj);
+            
+               
+        }
+        echo json_encode($command);
+        
+    }
     public function getComplete(){
         $this->load->model('My_model');
         $model=$this->My_model;

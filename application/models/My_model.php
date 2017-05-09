@@ -127,6 +127,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
             
         }
+        public function getlistforyear($min,$max){
+            $sql="SELECT * FROM command WHERE Command_startdate BETWEEN '$min-00-00' AND '$max-00-00';";
+            
+             return $this->db->query($sql);
+        }
+        
     }
 
 ?>
