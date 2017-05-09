@@ -116,7 +116,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $result=$this->db->query($sql);
              foreach($result->result() as $r){
                 return $r->miny;
-            }//c
+            }//cs
             
         }
         public function getmaxyear(){
