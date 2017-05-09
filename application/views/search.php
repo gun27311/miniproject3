@@ -45,10 +45,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                <h3>ค้นหา</h3>
                 <input type=text ng-model=myfilter><br>
                 </div>
-                <div class="col-sm-2">
-                <h3>ระยะเวลา</h3>
-                <input type=text ng-model=myfilter><br>
+                <div class="col-sm-1"></div>
+                <div class="col-sm-1">
+                    <h3>เริ่ม</h3>
+                    <select ng-model=mini ng-mouseleave="count()">
+                        <option ng-repeat="y in arry">{{y}}</option>
+                    </select>
+                    
                 </div>
+                <div class="col-sm-1">
+                <h3>สิ้นสุด</h3>
+                    <select ng-model=maxi ng-mouseleave="count()">
+                        <option ng-repeat="y in arry">{{y}}</option>
+                    </select>
+                    
+                </div>
+
                 <table  class="table ">
                             <tr>
                             
@@ -66,12 +78,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <td>{{r.Command.Command_genid}}</td>
                                 <td style='width:300'>{{r.Command.Command_name}}</td>
                                 
-                                <td ><ul style='list-style-type:none;' ng-repeat="d in r.Memberlist"><li>{{"ชื่อ : "+d.Member_name+" ตำแหน่ง "+d.Member_Position}}</li></ul></td>
+                                <td ><div ng-repeat="d in r.Memberlist"><p>{{"ชื่อ : "+d.Member_name+" ตำแหน่ง "+d.Member_Position}}</p></div></td>
                                 
                                 <td>{{r.Command.Command_startdate}}</td>
                                 <td>{{r.Command.Command_donedate}}</td>
                                 <td>{{r.Command.Command_status}}</td>
-                                <td value={{r.Command_id}}><a href='<?php echo base_url() ?>index.php/main/showonecommand/{{r.Command_id}}'>click</a></td>
+                                <td value={{r.Command_id}}><a href="<?php echo base_url() ?>index.php/main/showonecommand/{{r.Command.Command_id}}">click</a></td>
                                 </a>
                             </tr>
                             </table>
@@ -92,23 +104,51 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         url : "<?php echo base_url() ?>index.php/main/getcomplete"
                     }).then(function mySucces(response) {
                         $scope.obj = response.data;
-                        
+                        $http({
+                            method : "GET",
+                            url : "<?php echo base_url() ?>index.php/main/getMinYear"
+                        }).then(function mySucces(response) {
+                            $scope.miny = response.data;
+                            $http({
+                                method : "GET",
+                                url : "<?php echo base_url() ?>index.php/main/getMaxYear"
+                            }).then(function mySucces(response) {
+                                $scope.maxy = response.data;
+                                $scope.arry=new Array();
+                                for(i=Number($scope.miny);i<=Number($scope.maxy);i++){
+                                    $scope.arry.push(i);
+                                }
+                                
+                                
+                            }, function myError(response) {
+                                $scope.maxy = response.statusText;
+                            });
+                        }, function myError(response) {
+                            $scope.miny = response.statusText;
+                        });
                     }, function myError(response) {
                         $scope.obj = response.statusText;
                     });
 
-                    $scope.filterdate=function(){
-                        $http({
-                            method : "GET",
-                            url : "<?php echo base_url() ?>index.php/main/getMaxYear"
-                        }).then(function mySucces(response) {
-                            $scope.miny = response.data;
-                            alert($scope.miny);
-                        }, function myError(response) {
-                            $scope.miny =response.data;
-                        }); 
+                    $scope.count = function(){
+                        if($scope.maxi<$scope.mini){
+                            $scope.maxi=$scope.mini;
+                            alert('ใส่ปีน้อยกว่าไม่ได้ค่ะ');
+                             $http({
+                                method : "GET",
+                                    url : "<?php echo base_url() ?>index.php/main/getMaxYear"
+                                }).then(function mySucces(response) {
+                                    $scope.miny = response.data;
+                                    alert($scope.miny);
+                                }, function myError(response) {
+                                    $scope.miny =response.data;
+                                }); 
+                        }
                     }
-                     $scope.filterdate();
+                    //$scope.filterdate=function(){
+                      
+                    
+                     //$scope.filterdate();
                 });
 
             </script>

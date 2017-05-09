@@ -13,7 +13,16 @@ class Main extends CI_Controller{
     public function getMaxYear(){
         $this->load->model('My_model');
         $model=$this->My_model;
-        echo $model->getmaxyear();
+        $s=strtotime($model->getmaxyear());
+        $da=date("Y",$s);
+        echo $da;
+    }
+    public function getMinYear(){
+        $this->load->model('My_model');
+        $model=$this->My_model;
+        $s=strtotime($model->getminyear());
+        $da=date("Y",$s);
+        echo $da;
     }
     public function getComplete(){
         $this->load->model('My_model');
@@ -141,18 +150,24 @@ class Main extends CI_Controller{
         $cid=$model->getidcommand($_POST['comid'],$_POST['comname'],$_POST['comstart'],$_POST['comstop'],$_POST['status']);
        $check=false;
        $i=0;
+       $nummem=$model->getNumRowMember();
+       echo $nummem;
         foreach($_POST['memberlist'] as $k){
             
             foreach($result->result() as $row){
                 if($row->Member_name==$k){
+                    echo $row->Member_name;
                     $model->addmember_in_command($row->Member_id,$cid);
                     $check=false;
+                    
                     break;
                 }
+
+                
                 $check=true;
             }
-            if($check){
-               
+            if($check||$nummem==0){
+                
                 $model->addmember($k,$_POST['prolist'][$i]);
                 $mid=$model->checkmemberid($k,$_POST['prolist'][$i]);
                 //echo "namemem=".$k."pro=".$_POST['prolist'][$i].' mid='.$mid.' cid='.$cid."<br>";
@@ -161,7 +176,7 @@ class Main extends CI_Controller{
             $i++;
         }
        }
-       header("location:".base_url()."/index.php/main/Showcommand");
+       //header("location:".base_url()."/index.php/main/Showcommand");
         //$_POST['comid'];
        // $_POST['comname'];
        

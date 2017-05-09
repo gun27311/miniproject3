@@ -24,6 +24,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $query = $this->db->get();  
             return $query->num_rows();
         }
+        public function getNumRowMember(){
+            $this->db->from('member');
+            $query = $this->db->get();  
+            return $query->num_rows();
+        }
         public function getOneCommand($id){
             $sql="SELECT * FROM command WHERE Command_id like ?";
             $data=array($id);
@@ -107,11 +112,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             return $this->db->query($sql,$data);
         }
         public function getminyear(){
-            $sql="SELECT Min(Command_startdate) FROM command";
+            $sql="SELECT Min(Command_startdate) AS miny FROM command";
             $result=$this->db->query($sql);
-            
-                return $result->result();
-            
+             foreach($result->result() as $r){
+                return $r->miny;
+            }
             
         }
         public function getmaxyear(){
