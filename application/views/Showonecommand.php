@@ -39,13 +39,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
          </div>
        <?php include("page/nav.php") ?>
         <div class="container-fluid" style="height:1000px">
-           <div class="col-sm-3" id="myScrollspy">
+           <div class="col-sm-2" id="myScrollspy">
                 
                 </div>
-            <div  class="col-sm-6">
+            <div  class="col-sm-7">
                 <?php 
                 if(isset($Command_genid)){
-                        echo  "<div class='col-sm-10'>";
+                        echo  "<div class='col-sm-9'>";
                         echo "<br>";
                         
                         echo "<h3>รหัสคำสั่งแต่งตั้ง </h3><h4>$Command_genid</h4>";
@@ -63,6 +63,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 echo "ชื่อ $row->Member_name ตำแหน่ง $row->Member_Position<br>";
                             }
                         }
+                        echo "<h3>link</h3>";
+                        echo "<p>$Command_link</p>";
                         echo "</p>";
                         
                         
@@ -83,7 +85,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         }
                          
                         echo "</div>";
-                        echo  "<div class='col-sm-2'>";
+                        echo  "<div class='col-sm-3'>";
                         echo "<a href='".base_url()."/index.php/main/Showeditcommmand/$Command_id'><button>แก้ใข</button></a> <a href='".base_url()."/index.php/main/deleteCommmand/$Command_id'><button>ลบ</button></a>";
                         echo "</div";
                        

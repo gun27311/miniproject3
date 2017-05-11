@@ -33,7 +33,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <body ng-app='myapp' ng-controller='myctrl'>
         <div class="container-fluid" style="background-color:##e6e6e6;">
-            <h1>Miproject 3 #webpro</h1>
+             <h1>Miproject 3 #webpro</h1>
             <h3>เว็ปเพิ่มคำสั่งแต่งตั้ง</h3>
             
          </div>
@@ -48,14 +48,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="col-sm-1"></div>
                 <div class="col-sm-1">
                     <h3>เริ่ม</h3>
-                    <select ng-model=mini ng-mouseleave="count()">
+                    <select ng-model=mini ng-click="count()">
+                        <option selected value=แสดงทั้งหมด>แสดงทั้งหมด</option>
                         <option ng-repeat="y in arry">{{y}}</option>
                     </select>
                     
                 </div>
                 <div class="col-sm-1">
                 <h3>สิ้นสุด</h3>
-                    <select ng-model=maxi ng-mouseleave="count()">
+                    <select ng-model=maxi ng-click="count()">
+                        <option value=แสดงทั้งหมด>แสดงทั้งหมด</option>
                         <option ng-repeat="y in arry">{{y}}</option>
                     </select>
                     
@@ -131,9 +133,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     });
 
                     $scope.count = function(){
+                       
                         if($scope.maxi<$scope.mini){
+
                             $scope.maxi=$scope.mini;
+                            if($scope.mini!="แสดงทั้งหมด"){
                             alert('ใส่ปีน้อยกว่าไม่ได้ค่ะ');
+                            }
                              $http({
                                 method : "GET",
                                     url : "<?php echo base_url() ?>index.php/main/getlistforyear/"+$scope.mini+"/"+$scope.maxi
@@ -143,7 +149,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 }, function myError(response) {
                                     $scope.obj =response.data;
                                 }); 
-                        }else{
+                        }else if($scope.mini=="แสดงทั้งหมด"){
+                            $scope.maxi="แสดงทั้งหมด";
+                             $http({
+                                method : "GET",
+                                    url : "<?php echo base_url() ?>index.php/main/getcomplete"
+                                }).then(function mySucces(response) {
+                                    $scope.obj = response.data;
+                                }, function myError(response) {
+                                    $scope.obj =response.data;
+                                }); 
+
+                        }
+                        else{
                             $http({
                                 method : "GET",
                                     url : "<?php echo base_url() ?>index.php/main/getlistforyear/"+$scope.mini+"/"+$scope.maxi
@@ -154,10 +172,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 }); 
                         }
                     }
-                    //$scope.filterdate=function(){
-                      
-                    
-                     //$scope.filterdate();
+                 
                 });
 
             </script>

@@ -39,10 +39,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
              $data=array($id);
             return $this->db->query($sql,$data);
         }
-        public function addCommand($genid,$name,$startdate,$donedate,$status){
-            $sql="INSERT INTO `command`(`Command_genid`, `Command_name`, `Command_startdate`, `Command_donedate`, `Command_status`) 
-            VALUES (?,?,?,?,?)";
-            $data=array($genid,$name,$startdate,$donedate,$status);
+        public function changeStatus($id,$s){
+            $sql="UPDATE `command` SET `Command_status`=? WHERE Command_id like ?";
+            $data=array($s,$id);
+            $this->db->query($sql,$data);
+        }
+        public function addCommand($genid,$name,$startdate,$donedate,$status,$link){
+            $sql="INSERT INTO `command`(`Command_genid`, `Command_name`, `Command_startdate`, `Command_donedate`, `Command_status`,`Command_link`) 
+            VALUES (?,?,?,?,?,?)";
+            $data=array($genid,$name,$startdate,$donedate,$status,$link);
             if($this->db->query($sql,$data)){
                 return true;
             }else{
@@ -95,10 +100,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $sql="DELETE FROM `command` WHERE `Command_id` like ?";
              $this->db->query($sql,$data);
         }
-        public function updatecommand($cgid,$cname,$cstart,$cstop,$cstatus,$cid){
+        public function updatecommand($cgid,$cname,$cstart,$cstop,$cstatus,$cid,$link){
             $sql="UPDATE `command` 
-            SET `Command_genid`=?,`Command_name`=?,`Command_startdate`=?,`Command_donedate`=?,`Command_status`=? WHERE `Command_id` like ?";
-            $data=array($cgid,$cname,$cstart,$cstop,$cstatus,$cid);
+            SET `Command_genid`=?,`Command_name`=?,`Command_startdate`=?,`Command_donedate`=?,`Command_status`=? ,`Command_link`=? WHERE `Command_id` like ?";
+            $data=array($cgid,$cname,$cstart,$cstop,$cstatus,$link,$cid);
             $this->db->query($sql,$data);
         }
         public function deleteMemberInCommand($cid){

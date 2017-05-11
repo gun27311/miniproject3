@@ -83,7 +83,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
                 <div class="form-group">
                     <label for="text">ชื่อคำสั่ง:</label>
-                    <input type="text" value='<?php echo $Command_name; ?>' class="form-control" name=comname id="comname">
+                    <textarea type="text"  class="form-control" name=comname id="comname"><?php echo $Command_name; ?></textarea>
+                    <label for="text">link : </label>
+                    <input type="text"  value='<?php echo $Command_link; ?>' class="form-control" name=link id="comname" required>
                 </div>
                 <div class="form-group">
                     

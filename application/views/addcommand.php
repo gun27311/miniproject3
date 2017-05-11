@@ -75,15 +75,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             </div>
             <div class="col-sm-10">
-                <form action="<?php echo base_url() ?>index.php/main/addcommand" method='POST'>
+                <form name="myForm" onsubmit="return validateForm()" action="<?php echo base_url() ?>index.php/main/addcommand" method='POST'>
                 <!-- form !-->
                 <div class="form-group">
                     <label for="text">เลขที่คำสั่ง :</label>
-                    <input type="text" class="form-control" name=comid id="comid">
+                    <input type="text" class="form-control" name=comid id="comid" required>
                 </div>
                 <div class="form-group">
                     <label for="text">ชื่อคำสั่ง:</label>
-                    <input type="text" class="form-control" name=comname id="comname">
+                    <textarea type="text" class="form-control" name=comname id="comname" required></textarea>
+                    <label for="text">link : </label>
+                    <input type="text" class="form-control" name=link id="comname" required>
                 </div>
                 <div class="form-group">
                     <label for="text">รายชื่อกรรมการ:</label>
@@ -92,6 +94,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                     <button type="button" id=addmember class="btn btn-default">เพื่มกรรมการ</button>
                     </table>
+                     
                 </div>
 
                 <div class="form-group">
@@ -99,18 +102,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <tr>
                             <td>
                     <label for="text">เวลาเริ่มคำสั่ง :</label>
-                    <input ng-model='start' type="date" name=comstart class="form-control" id="comname">
+                    <input ng-model='start' type="date" name=comstart class="form-control" id="comname" required>
                             </td>
                     </tr>
                       <tr>
                             <td>
                     <label for="text">เวลาจบคำสั่ง :</label>
-                     <input type="date" min={{start}} name=comstop class="form-control" id="comname">
+                     <input type="date" min={{start}} name=comstop class="form-control" id="comname" >
                            </td>
                     </tr>
                      </table>
                      <h3>สถานะ</h3>
-                     <input type=radio value='A' name=status checked> Active <input type=radio value='X' name=status> expes
+                     <input type=radio value='Active' name=status checked> Active <input type=radio value='X' name=status value=expine> expine
                 </div>
                 <button type="submit" class="btn btn-default">Submit</button>
 
@@ -124,22 +127,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         </div>
         <script>
+        
+       
             $(document).ready(function() {
-                var c;
+                
                 $('#addmember').click(function() {
-                    $(this).before("<tr><td><input type='text'  name='memberlist[]' class='form-control' placeholder='โปรดใส่ชื่อกรรมการ'></td><td width='130'><input type='text' name='prolist[]'  class='form-control' id='pwd' placeholder='โปรดใส่ตำแหน่ง'></td><td><button type=button id=remove class='btn btn-default'>ลบ</button></td></tr><tr id=nonshow><td id=nonshow>&nbsp;</td></tr>");
+                    $(this).before("<tr><td><input required my=mm type='text' name='memberlist[]' class='form-control' placeholder='โปรดใส่ชื่อกรรมการ'></td><td width='130'><input type='text' name='prolist[]' required class='form-control' id='pwd' placeholder='โปรดใส่ตำแหน่ง'></td><td><button type=button id=remove class='btn btn-default'>ลบ</button></td></tr><tr id=nonshow><td id=nonshow>&nbsp;</td></tr>");
+                    $.get('<?php echo base_url() ?>/index.php/main/getnameallmember',function(data){
+                    var c=JSON.parse(data);
+                    $( "input[my=mm]" ).autocomplete({
+                     source: c
+                    });
+
+                    })
                 })
                 $('body').on('click','#remove',function(){
                      $(this).parent().parent().next().remove();
                     $(this).parent().parent().remove();
                 })
-                $.get('<?php echo base_url() ?>/index.php/main/getnameallmember',function(data){
-                    c=JSON.parse(data);
-                    $( "input[name=memberlist[]" ).autocomplete({
-                     source: availableTags
-                    });
-
-                })
+                
                 
             })
         </script>

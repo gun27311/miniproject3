@@ -2,7 +2,8 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 class Main extends CI_Controller{
     public function index(){
-        $this->load->view('Homepage');
+        $this->load->view('Showcommand');
+        //$this->load->view('Homepage');
     }
     public function Showcommand(){
         $this->load->view('Showcommand');
@@ -69,7 +70,6 @@ class Main extends CI_Controller{
             $obj->Command=$row;
             $obj->Memberlist=$m;
             array_push($command,$obj);
-            
                
         }
         echo json_encode($command);
@@ -117,12 +117,27 @@ class Main extends CI_Controller{
         $page=($page-1)*10;
         //ceil();
         $result=$model->getDataPage($page);
-        $arr=array();
+        //$arr=array();
 
+        //foreach($result->result() as $row){
+         //   array_push($arr,$row);
+        //}
+        //echo json_encode($arr);
+        $command=array();
         foreach($result->result() as $row){
-            array_push($arr,$row);
+            $obj=new Command();
+             $meo=new Command();
+             $s=$model->getnatural($row->Command_id);
+             $m=array();
+             foreach($s->result() as $r){
+                array_push($m,$r);
+             }
+            $obj->Command=$row;
+            $obj->Memberlist=$m;
+            array_push($command,$obj);
+               
         }
-        echo json_encode($arr);
+        echo json_encode($command);
    }
    public function getNumPage(){
        $this->load->model('My_model');
@@ -167,11 +182,23 @@ class Main extends CI_Controller{
         $this->load->view('Showonecommand',$s);
         
    }
+   public function changeStatus($id,$s){
+        $this->load->model('My_model');
+        $model=$this->My_model;
+        if($s=='Active'){
+            $x='expine';
+        }else{
+            $x='Active';
+        }
+        $model->changeStatus($id,$x);
+
+   }
    public function addcommand(){
+       
        if(isset($_POST['memberlist'])){
        $this->load->model('My_model');
         $model=$this->My_model;
-        $model->addCommand($_POST['comid'],$_POST['comname'],$_POST['comstart'],$_POST['comstop'],$_POST['status']);
+        $model->addCommand($_POST['comid'],$_POST['comname'],$_POST['comstart'],$_POST['comstop'],$_POST['status'],$_POST['link']);
         $result=$model->getallmember();
         $cid=$model->getidcommand($_POST['comid'],$_POST['comname'],$_POST['comstart'],$_POST['comstop'],$_POST['status']);
        $check=false;
@@ -201,6 +228,11 @@ class Main extends CI_Controller{
             }
             $i++;
         }
+        header("location:".base_url()."/index.php/main/Showcommand");
+       }else{
+           echo "<script type='text/javascript'>alert('กรุณาเพิ่มกรรมการ');</script>";
+           echo "<meta http-equiv='refresh' content='0;URL=".base_url()."/index.php/main/Showadd'>";
+           //header("location:".base_url()."/index.php/main/Showadd");
        }
        //header("location:".base_url()."/index.php/main/Showcommand");
         //$_POST['comid'];
@@ -256,7 +288,7 @@ class Main extends CI_Controller{
         if(isset($_POST['memberlist'])){
        $this->load->model('My_model');
         $model=$this->My_model;
-        $model->updatecommand($_POST['comid'],$_POST['comname'],$_POST['comstart'],$_POST['comstop'],$_POST['status'],$cid);
+        $model->updatecommand($_POST['comid'],$_POST['comname'],$_POST['comstart'],$_POST['comstop'],$_POST['status'],$cid,$_POST['link']);
         $result=$model->getallmember();
         $model->deleteMemberInCommand($cid);
        $check=false;
