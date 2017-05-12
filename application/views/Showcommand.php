@@ -50,6 +50,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         p[name=gs]{
              cursor:pointer;
         }
+        .info{
+            background-color:#e6e6e6;
+        }
+        .table > thead > tr > td.info,
+.table > tbody > tr > td.info,
+.table > tfoot > tr > td.info,
+.table > thead > tr > th.info,
+.table > tbody > tr > th.info,
+.table > tfoot > tr > th.info,
+.table > thead > tr.info > td,
+.table > tbody > tr.info > td,
+.table > tfoot > tr.info > td,
+.table > thead > tr.info > th,
+.table > tbody > tr.info > th,
+.table > tfoot > tr.info > th {
+  background-color: #404040;
+  color:white;
+}
         </style>
     </head>
 
@@ -64,34 +82,42 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="container-fluid s" >
            
                 <div  class="col-sm-12">
-                    <p style='color:red'>**double click ที่สถานนะเพื่อเปรี่ยนสถานะ**</p>
+                <h1>แสดงคำสั่งทั้งหมด</h1>
+                  
+                    <p style='color:red'>**click ที่สถานนะเพื่อเปลี่ยนสถานะ**</p>
                      <p style='color:red'>**click รายระเอียดเพื่อแก้ใข หรือ ลบ**</p>
+                     <p style='color:red'>click ที่หัวตารางเพื่อเรียงได้</p>
                    <div  >
+                   
                         <table style="overflow:auto" class="table ">
-                            <tr>
+                           <tr class="info">
                             
-                            <th ng-click="changeorder('Command.Command_genid')"><b>รหัส</b></th>
-                            <th width=300 ng-click="changeorder('Command_name')"><b>ชื่อคำสั่ง</b></th>
-                            <th >รายชื่อกรรม</th>
-                            <th ng-click="changeorder('Command.Command_startdate')"><b>วันเริ่ม</b></th>
-                            <th ng-click="changeorder('Command.Command_donedate')"><b>วันสิ้นสุด</b></th>
-                            <th ng-click="changeorder('Command.Command_status')"><b>สถานะ</b></th>
-                            <th ng-click="changeorder('Command.Command_link')"><b>link</b></th>
-                            <th width=100>รายระเอียด</th>
+                            <th width=100 ng-click="changeorder('Command.Command_genid')"><center><b>รหัส</b></center></th>
+                            <th  width=500 ng-click="changeorder('Command.Command_name')"><center><b>ชื่อคำสั่ง</b></center></th>
+                            <th width=300><center>รายชื่อกรรมการ</center></th>
+                            <th width=100 ng-click="changeorder('Command.Command_startdate')"><center><b>วันเริ่ม</b></center></th>
+                            <th width=100 ng-click="changeorder('Command.Command_donedate')"><center><b>วันสิ้นสุด</b></center></th>
+                            <th width=100 ng-click="changeorder('Command.Command_status')"><center><b>สถานะ</b></center></th>
+                            <th  width=100 ng-click="changeorder('Command.Command_link')"><center><b>link</b></center></th>
+                            <th width=120><center>รายระเอียด</th>
                             </tr>
-                            <tr ng-repeat='r in obj1 | orderBy:ordername | filter : myfilter'>
-                            <a href='#1'>
+                            <tr width=100 ng-repeat='r in obj1 | orderBy:ordername ' >
+                            
+
                                 
-                                <td>{{r.Command.Command_genid}}</td>
-                                <td>{{r.Command.Command_name}}</td>
-                                <td width=300><p ng-repeat="d in r.Memberlist">ชื่อ : {{d.Member_name}} ตำแหน่ง : {{d.Member_Position}}</p></td>
-                                <td width=100>{{r.Command.Command_startdate}}</td>
-                                <td width=100>{{r.Command.Command_donedate}}</td>
-                                <td><p name=gs ng-dblclick='changeStatus(r.Command.Command_id,r.Command.Command_status)'>{{r.Command.Command_status}}</p></td>
-                                <td>{{r.Command.Command_link}}</td>
-                                <td value={{r.Command.Command_id}}><a href='<?php echo base_url() ?>index.php/main/showonecommand/{{r.Command.Command_id}}'>click</a></td>
-                                </a>
+                                <td width=100><center>{{r.Command.Command_genid}}</center></td>
+                                <td width=500>{{r.Command.Command_name}}</td>
+                                
+                                <td width=300><p ng-repeat="d in r.Memberlist">{{"ชื่อ : "+d.Member_name}}</p></td>
+                                
+                                <td width=100><center>{{r.datestart}}</center></td>
+                                <td width=100><center>{{r.datestop == '0000-00-00' ? '-' : r.datestop}}</center></td>
+                                <td width=70><center><p name=gs ng-click='changeStatus(r.Command.Command_id,r.Command.Command_status)'>
+                                <button type="button" class="btn btn-default">{{r.Command.Command_status == 'Active' ? 'Active' : 'Expired'}}</center></button></p></td>
+                                <td width=100><a href="{{r.Command.Command_link}}"><center><span class="glyphicon glyphicon-paperclip"></center></span></a></td>
+                                <td width=100 value={{r.Command_id}}><center><a href="<?php echo base_url() ?>index.php/main/showonecommand/{{r.Command.Command_id}}"><span class="glyphicon glyphicon-align-left"></span></a></center></td>
                             </tr>
+                                <td colspan="8"  ng-hide="obj1.length"><center><h1>ไม่มีข้อมูล</h1></center></td>
                             </table>
                         </div>
                         <div id=ss></div>

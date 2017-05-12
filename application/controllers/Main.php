@@ -42,6 +42,14 @@ class Main extends CI_Controller{
                 
                 array_push($m,$r);
              }
+             $x=date_create($row->Command_startdate);
+            $obj->datestart=date_format($x,"d/m/Y");
+            if($row->Command_donedate!='0000-00-00'){
+            $y=date_create($row->Command_donedate);
+             $obj->datestop=date_format($y,"d/m/Y");
+           }else{
+            $obj->datestop='0000-00-00';
+           }
             $obj->Command=$row;
             $obj->Memberlist=$m;
             array_push($command,$obj);
@@ -59,6 +67,7 @@ class Main extends CI_Controller{
        
     
         foreach($result->result() as $row){
+          
             $obj=new Command();
              $meo=new Command();
              $s=$model->getnatural($row->Command_id);
@@ -67,12 +76,25 @@ class Main extends CI_Controller{
                 
                 array_push($m,$r);
              }
+             $x=date_create($row->Command_startdate);
+            $obj->datestart=date_format($x,"d/m/Y");
+            if($row->Command_donedate!='0000-00-00'){
+            $y=date_create($row->Command_donedate);
+             $obj->datestop=date_format($y,"d/m/Y");
+           }else{
+            $obj->datestop='0000-00-00';
+           }
             $obj->Command=$row;
             $obj->Memberlist=$m;
             array_push($command,$obj);
                
         }
-        echo json_encode($command);
+        if(empty($command)){
+          echo "string";
+        }else{
+          echo json_encode($command);
+        }
+        
     }
     public function getlistCommand(){
         $this->load->model('My_model');
@@ -132,6 +154,14 @@ class Main extends CI_Controller{
              foreach($s->result() as $r){
                 array_push($m,$r);
              }
+             $x=date_create($row->Command_startdate);
+            $obj->datestart=date_format($x,"d/m/Y");
+            if($row->Command_donedate!='0000-00-00'){
+            $y=date_create($row->Command_donedate);
+             $obj->datestop=date_format($y,"d/m/Y");
+           }else{
+            $obj->datestop='0000-00-00';
+           }
             $obj->Command=$row;
             $obj->Memberlist=$m;
             array_push($command,$obj);

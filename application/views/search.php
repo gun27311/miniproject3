@@ -28,11 +28,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .affix + .container-fluid {
             padding-top: 70px;
         }
+         .table tr th b{
+            cursor:pointer;
+        }
+        p[name=gs]{
+             cursor:pointer;
+        }
+        .table > thead > tr > td.info,
+.table > tbody > tr > td.info,
+.table > tfoot > tr > td.info,
+.table > thead > tr > th.info,
+.table > tbody > tr > th.info,
+.table > tfoot > tr > th.info,
+.table > thead > tr.info > td,
+.table > tbody > tr.info > td,
+.table > tfoot > tr.info > td,
+.table > thead > tr.info > th,
+.table > tbody > tr.info > th,
+.table > tfoot > tr.info > th {
+  background-color: #404040;
+  color:white;
+}
         </style>
     </head>
 
     <body ng-app='myapp' ng-controller='myctrl'>
-        <div class="container-fluid" style="background-color:##e6e6e6;">
+        <div class="container-fluid" >
              <h1>Miproject 3 #webpro</h1>
             <h3>เว็ปเพิ่มคำสั่งแต่งตั้ง</h3>
             
@@ -43,52 +64,73 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div  class="col-sm-12">
                 <div class="col-sm-2">
                <h3>ค้นหา</h3>
-                <input type=text ng-model=myfilter><br>
+                <input  placeholder='เลขที่ ชื่อคำสั่ง ชื่อกรรมการ' type=text ng-model=myfilter><br>
                 </div>
                 <div class="col-sm-1"></div>
-                <div class="col-sm-1">
+                <div class="col-sm-6">
+                    <div style="float: left;">
                     <h3>เริ่ม</h3>
                     <select ng-model=mini ng-click="count()">
                         <option selected value=แสดงทั้งหมด>แสดงทั้งหมด</option>
                         <option ng-repeat="y in arry">{{y}}</option>
+                
                     </select>
-                    
-                </div>
-                <div class="col-sm-1">
-                <h3>สิ้นสุด</h3>
+                    </div>
+                    <div style="float: left;">
+                    <h3>สิ้นสุด</h3>
                     <select ng-model=maxi ng-click="count()">
                         <option value=แสดงทั้งหมด>แสดงทั้งหมด</option>
                         <option ng-repeat="y in arry">{{y}}</option>
                     </select>
-                    
-                </div>
+                        </div>
+                    <div style="float: left;">
+                    <h3>จำนวนการค้นหา</h3>
+                    <center>
+                    <select ng-model=qu >
+                        <option value=5>5</option>
+                        <option value=10>10</option>
+                        <option value=15>15</option>
+                        <option value=20>20</option>
+                    </select>
+                    </center>
+                        </div>
 
+                </div>
+                
+                <div class="col-sm-12">&nbsp;</div>
                 <table  class="table ">
-                            <tr>
+                
+                            <tr class="info">
                             
-                            <th ng-click="changeorder('Command_genid')"><b>รหัส</b></th>
-                            <th style='width:300' ng-click="changeorder('Command_name')"><b>ชื่อคำสั่ง</b></th>
-                            <th>รายชื่อกรรมการ</th>
-                            <th ng-click="changeorder('Command_startdate')"><b>วันเริ่ม</b></th>
-                            <th ng-click="changeorder('Command_donedate')"><b>วันสิ้นสุด</b></th>
-                            <th ng-click="changeorder('Command_status')"><b>สถานะ</b></th>
-                            <th ng-click="changeorder('Command_link')"><b>link</b></th>
+                            <th width=100 ng-click="changeorder('Command.Command_genid')"><center><b>รหัส</b></center></th>
+                            <th  width=500 ng-click="changeorder('Command.Command_name')"><center><b>ชื่อคำสั่ง</b></center></th>
+                            <th width=300><center>รายชื่อกรรมการ</center></th>
+                            <th width=100 ng-click="changeorder('Command.Command_startdate')"><center><b>วันเริ่ม</b></center></th>
+                            <th width=100 ng-click="changeorder('Command.Command_donedate')"><center><b>วันสิ้นสุด</b></center></th>
+                            <th width=100 ng-click="changeorder('Command.Command_status')"><center><b>สถานะ</b></center></th>
+                            <th  width=100 ng-click="changeorder('Command.Command_link')"><center><b>link</b></center></th>
+                            <th width=120><center>รายระเอียด</th>
                             </tr>
-                            <tr ng-repeat='r in obj | orderBy:ordername | filter : myfilter'>
-                            <a href='#1'>
+
+                            <tr width=100 ng-repeat='r in obj1 =(obj| filter : myfilter)| orderBy:ordername | limitTo:qu' >
+                            
+
                                 
-                                <td>{{r.Command.Command_genid}}</td>
-                                <td style='width:300'>{{r.Command.Command_name}}</td>
+                                <td width=100><center>{{r.Command.Command_genid}}</center></td>
+                                <td width=500>{{r.Command.Command_name}}</td>
                                 
-                                <td ><div ng-repeat="d in r.Memberlist"><p>{{"ชื่อ : "+d.Member_name+" ตำแหน่ง "+d.Member_Position}}</p></div></td>
+                                <td width=300><p ng-repeat="d in r.Memberlist">{{"ชื่อ : "+d.Member_name}}</p></td>
                                 
-                                <td>{{r.Command.Command_startdate}}</td>
-                                <td>{{r.Command.Command_donedate}}</td>
-                                <td>{{r.Command.Command_status}}</td>
-                                <td value={{r.Command_id}}><a href="<?php echo base_url() ?>index.php/main/showonecommand/{{r.Command.Command_id}}">click</a></td>
-                                </a>
+                                <td width=100><center>{{r.datestart}}</center></td>
+                                <td width=100><center>{{r.datestop == '0000-00-00' ? '-' : r.datestop}}</center></td>
+                                <td width=70><center><p name=gs ng-click='changeStatus(r.Command.Command_id,r.Command.Command_status)'>
+                                <button type="button" class="btn btn-default">{{r.Command.Command_status == 'Active' ? 'Active' : 'Expired'}}</center></button></p></td>
+                                <td width=100><a href="{{r.Command.Command_link}}"><center><span class="glyphicon glyphicon-paperclip"></center></span></a></td>
+                                <td width=100 value={{r.Command_id}}><center><a href="<?php echo base_url() ?>index.php/main/showonecommand/{{r.Command.Command_id}}"><span class="glyphicon glyphicon-align-left"></span></a></center></td>
                             </tr>
+                                <td colspan="8"  ng-hide="obj1.length"><center><h1>ไม่พบข้อมูลที่คุณค้นหา</h1></center></td>
                             </table>
+                            
                 
            </div>
          </div>
@@ -101,11 +143,49 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 
                 app.controller('myctrl',function($scope,$http){
                     //$scope.data=JSON.parse();
+                    $scope.qu=10;
+                    $scope.changeStatus=function(id,s){
+                        
+                        $http({
+                            method : "GET",
+                            url : "<?php echo base_url() ?>index.php/main/changeStatus/"+id+"/"+s
+                        }).then(function mySucces(response) {
+                             
+                             $scope.showlist($scope.numstaypage,$scope.numpage);
+                        }, function myError(response) {
+                             $scope.numpage=response.statusText;
+                        });
+                    }
+                    $scope.showlist=function(n,s){
+                         $http({
+                            method : "GET",
+                            url : "<?php echo base_url() ?>index.php/main/getcomplete/"
+                        }).then(function mySucces(response) {
+                            if(response.data=='string'){
+                                
+                                $scope.rx='ไม่มีข้อมูล';
+                                
+                            }else{
+                                $scope.obj = response.data;
+                                $scope.rx='';
+                            }
+                            
+                           
+                        }, function myError(response) {
+                            $scope.obj1 = response.statusText;
+                        });
+
+                    }
                    $http({
                         method : "GET",
                         url : "<?php echo base_url() ?>index.php/main/getcomplete"
                     }).then(function mySucces(response) {
+                        if(response.data=='string'){
+                                 $scope.rx='ไม่มีข้อมูล';
+                            }else{
                         $scope.obj = response.data;
+                         $scope.rx='';
+                    }
                         $http({
                             method : "GET",
                             url : "<?php echo base_url() ?>index.php/main/getMinYear"
@@ -120,6 +200,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 for(i=Number($scope.miny);i<=Number($scope.maxy);i++){
                                     $scope.arry.push(i);
                                 }
+                                $scope.mini='แสดงทั้งหมด';
+                                $scope.maxi='แสดงทั้งหมด';
                                 
                                 
                             }, function myError(response) {
@@ -131,14 +213,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     }, function myError(response) {
                         $scope.obj = response.statusText;
                     });
-
+                    
                     $scope.count = function(){
                        
                         if($scope.maxi<$scope.mini){
 
                             $scope.maxi=$scope.mini;
+                            
                             if($scope.mini!="แสดงทั้งหมด"){
-                            alert('ใส่ปีน้อยกว่าไม่ได้ค่ะ');
+                                alert('ใส่ปีน้อยกว่าไม่ได้ค่ะ');
                             }
                              $http({
                                 method : "GET",
@@ -172,7 +255,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 }); 
                         }
                     }
-                 
+                 $scope.changeorder=function(x){
+                        if($scope.ordername==x){
+                            $scope.ordername="-"+$scope.ordername;
+                        }else{
+                            $scope.ordername=x;
+                        }
+                        
+                    }
                 });
 
             </script>

@@ -28,6 +28,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .affix + .container-fluid {
             padding-top: 70px;
         }
+        
         </style>
     </head>
 
@@ -42,16 +43,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
            <div class="col-sm-2" id="myScrollspy">
                 
                 </div>
-            <div  class="col-sm-7">
+            <div id=inner class="col-sm-7">
                 <?php 
                 if(isset($Command_genid)){
                         echo  "<div class='col-sm-9'>";
                         echo "<br>";
                         
                         echo "<h3>รหัสคำสั่งแต่งตั้ง </h3><h4>$Command_genid</h4>";
-                        echo "<br>";
+                       
                         
-                        echo "<h3>ชื่่อคำสั่ง</h3><p> &nbsp;&nbsp;&nbsp; $Command_name </p>";
+                        echo "<h3>ชื่อคำสั่ง</h3><p> &nbsp;&nbsp;&nbsp; $Command_name </p>";
                         
                         
                         echo "<h3>รายชื่อกรรมการ</h3>";
@@ -60,7 +61,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             echo "-.- ขณะนี้ยังไม่มีรายชื่อกรรมการ -.-";
                         }else{
                             foreach($memberlist as $key=>$row){
-                                echo "ชื่อ $row->Member_name ตำแหน่ง $row->Member_Position<br>";
+                                echo "ชื่อ $row->Member_name <br>";
                             }
                         }
                         echo "<h3>link</h3>";
@@ -84,10 +85,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             echo "<p>หมดอายุแล้ว</p>";
                         }
                          
+                        echo "<a href='".base_url()."/index.php/main/Showcommand'>
+                        <button type=button class='btn btn-default btn-sm'>
+                                  <span class='glyphicon glyphicon-menu-left'></span> ย้อนกลับ
+                                </button>
+                        </a>";
+                        echo "<a href='".base_url()."/index.php/main/Showeditcommmand/$Command_id'>
+                        <button type='button' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-pencil'></span>แก้ใข</button> 
+
+                        </a> 
+
+                        <button ng-click=delete('$Command_id') type='button' class='btn btn-default btn-sm'>
+                          <span class='glyphicon glyphicon-trash'></span> ลบ
+                        </button>";
+                        
                         echo "</div>";
-                        echo  "<div class='col-sm-3'>";
-                        echo "<a href='".base_url()."/index.php/main/Showeditcommmand/$Command_id'><button>แก้ใข</button></a> <a href='".base_url()."/index.php/main/deleteCommmand/$Command_id'><button>ลบ</button></a>";
-                        echo "</div";
                        
                 }else{
                     echo "<h3>คำสั่งนี้ถูกลบไปแล้ว</h3>";
@@ -103,6 +115,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <script>
                 var app=angular.module('myapp',[]);
                 app.controller('myctrl',function($scope,$http){
+                   
+                    $scope.delete=function(id){
+                        if(confirm("คุณต้องการลบคำสั่งนี้หรือไม่"))
+                        window.location.href = "<?php echo base_url() ?>/index.php/main/deleteCommmand/"+id;
+                    }
                    $http({
                         method : "GET",
                         url : "<?php echo base_url() ?>index.php/main/getlistCommand"
